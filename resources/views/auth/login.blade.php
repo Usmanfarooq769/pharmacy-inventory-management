@@ -1,61 +1,3 @@
-<!-- <x-guest-layout>
-    <x-authentication-card>
-        <x-slot name="logo">
-            <x-authentication-card-logo />
-        </x-slot>
-
-        <x-validation-errors class="mb-4" />
-
-        @session('status')
-            <div class="mb-4 font-medium text-sm text-green-600">
-                {{ $value }}
-            </div>
-        @endsession
-
-        <form method="POST" action="{{ route('login') }}">
-            @csrf
-
-            <div>
-                <x-label for="email" value="{{ __('Email') }}" />
-                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
-            </div>
-
-            <div class="mt-4">
-                <x-label for="password" value="{{ __('Password') }}" />
-                <x-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="current-password" />
-            </div>
-
-            <div class="block mt-4">
-                <label for="remember_me" class="flex items-center">
-                    <x-checkbox id="remember_me" name="remember" />
-                    <span class="ms-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
-                </label>
-            </div>
-
-            <div class="flex items-center justify-end mt-4">
-                @if (Route::has('password.request'))
-                    <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">
-                        {{ __('Forgot your password?') }}
-                    </a>
-                @endif
-
-                <x-button class="ms-4">
-                    {{ __('Log in') }}
-                </x-button>
-            </div>
-        </form>
-    </x-authentication-card>
-</x-guest-layout>
-
-
-
-
-
-
-
- -->
-
-
 @include('auth-1.header-link')
 
    @if ($errors->any())
@@ -150,38 +92,25 @@
 
                                                 {{-- Submit --}}
                                                 <div class="col-12">
-                                                    <button type="submit" class="btn btn-primary w-100">
+                                                    <button type="submit" class="btn btn-primary w-100 mt-4">
                                                         Log in
                                                     </button>
                                                 </div>
 
                                             </div>
                                         </form>
-                                        <div class="d-grid mt-4">
-                                            <button type="submit" name="login" class="btn btn-primary"><i
-                                                    class="ri-login-circle-line lh-1 me-2 align-middle"></i>Sign
-                                                In</button>
-                                        </div>
+                                       
                                         <div class="text-center">
-                                            <p class="text-muted mt-3 mb-0">Click here to go back to <a
-                                                    class="text-primary fw-medium text-decoration-underline"
-                                                    href="signup.php">Sing UP</a></p>
-                                            <p class="text-muted mt-3 mb-0"> 
-                                                 @if (Route::has('password.request'))
-                                                        <a href="{{ route('password.request') }}"
-                                                            class="text-primary fw-medium text-decoration-underline">
-                                                            Forgot Password?
-                                                        </a>
-                                                        @endif
+                                          <p class="text-muted mt-4 mb-0">
+                                                Click here to go back to 
+                                                <a class="text-primary fw-medium text-decoration-underline"
+                                                href="{{ route('register') }}">Sign Up</a>
                                             </p>
-
-
-                                                    
+                                                
                                         </div>
                                     </div>
                                 </div>
-                                <div
-                                    class="col-xl-6 border rounded bg-secondary-transparent border-secondary border-opacity-10">
+                                <div class="col-xl-6 border rounded bg-secondary-transparent border-secondary border-opacity-10">
                                     <div
                                         class="d-flex align-items-center justify-content-around flex-column gap-4 h-100">
                                         <img src="../assets/images/authentication/5.png" alt="Sign In"

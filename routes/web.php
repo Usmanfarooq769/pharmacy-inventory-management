@@ -1,9 +1,25 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SaleController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProductMasukController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\ProductKeluarController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\RoleUserController;
+
+
+
+
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('login');
 });
 
 Route::middleware([
@@ -11,9 +27,7 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', [HomeController::class, 'index'])->name('home');
 });
 
 // user 
@@ -34,23 +48,6 @@ Route::get('sign-in-cover', function () {
 Route::get('mail', function () {
     return view('mail');
 })->name('mail');
-
-
-
-
-use App\Http\Controllers\SaleController;
-use App\Http\Controllers\ProductController;
-use App\Http\Controllers\ProductMasukController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\SupplierController;
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\CustomerController;
-use App\Http\Controllers\ProductKeluarController;
-use App\Http\Controllers\RoleController;
-use App\Http\Controllers\PermissionController;
-use App\Http\Controllers\RoleUserController;
-
 
 // Route::middleware(['auth','role:admin'])->group(function () {
     // Roles
@@ -74,7 +71,7 @@ use App\Http\Controllers\RoleUserController;
 //
 
 
-Route::get('/home', [HomeController::class, 'index'])->name('home');
+
 
 Route::group(['middleware' => 'auth'], function () {
 	Route::resource('categories', CategoryController::class);

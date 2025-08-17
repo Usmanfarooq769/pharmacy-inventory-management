@@ -1,45 +1,70 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
+<html lang="en">
+<head>
+    @include("layouts.partials.mainhead")
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+    <!-- Additional Styles -->
+    <link rel="stylesheet" href="{{ asset('assets/libs/flatpickr/flatpickr.min.css') }}">
 
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+    @stack('styles') <!-- Stack for child styles -->
+</head>
+<body>
+    @include("layouts.partials.switcher")
+    @include("layouts.partials.loader")
 
-        <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <div class="page">
+        @include("layouts.partials.header")
+        @include("layouts.partials.sidebar")
 
-        <!-- Styles -->
-        @livewireStyles
-    </head>
-    <body class="font-sans antialiased">
-        <x-banner />
-
-        <div class="min-h-screen bg-gray-100">
-            @livewire('navigation-menu')
-
-            <!-- Page Heading -->
-            @if (isset($header))
-                <header class="bg-white shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        {{ $header }}
-                    </div>
-                </header>
-            @endif
-
-            <!-- Page Content -->
-            <main>
-                {{ $slot }}
-            </main>
+        <!-- Start::app-content -->
+        <div class="main-content app-content">
+            <div class="container-fluid">
+                @yield('content') <!-- Section for child content -->
+            </div>
         </div>
+        <!-- End::app-content -->
 
-        @stack('modals')
+        @include("layouts.partials.footer")
+        @include("layouts.partials.headersearch-modal")
+    </div>
 
-        @livewireScripts
-    </body>
+    <!-- Common JS -->
+    @include("layouts.partials.commonjs")
+
+    <!-- Vendor Scripts -->
+    <script src="{{ asset('assets/libs/apexcharts/apexcharts.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/flatpickr/flatpickr.min.js') }}"></script>
+    <script src="{{ asset('assets/js/sales-dashboard.js') }}"></script>
+    <script src="{{ asset('assets/js/custom.js') }}"></script>
+
+    <!-- Color Picker JS -->
+    <script src="{{ asset('assets/libs/@simonwep/pickr/pickr.es5.min.js') }}"></script>
+
+    <!-- Date & Time Picker JS -->
+    <script src="{{ asset('assets/libs/flatpickr/flatpickr.min.js') }}"></script>
+
+    <!-- Quill Editor JS -->
+    <script src="{{ asset('assets/libs/quill/quill.js') }}"></script>
+
+    <!-- Filepond JS -->
+    <script src="{{ asset('assets/libs/filepond/filepond.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/filepond-plugin-image-preview/filepond-plugin-image-preview.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/filepond-plugin-image-exif-orientation/filepond-plugin-image-exif-orientation.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/filepond-plugin-file-validate-size/filepond-plugin-file-validate-size.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/filepond-plugin-file-encode/filepond-plugin-file-encode.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/filepond-plugin-image-edit/filepond-plugin-image-edit.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/filepond-plugin-file-validate-type/filepond-plugin-file-validate-type.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/filepond-plugin-image-crop/filepond-plugin-image-crop.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/filepond-plugin-image-resize/filepond-plugin-image-resize.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/filepond-plugin-image-transform/filepond-plugin-image-transform.min.js') }}"></script>
+
+    <!-- Internal Add/Edit Products JS -->
+    <script src="{{ asset('assets/js/edit-products.js') }}"></script>
+
+    <!-- Custom JS -->
+    <script src="{{ asset('assets/js/custom.js') }}"></script>
+
+    @stack('scripts') <!-- Stack for child scripts -->
+    @include("layouts.partials.custom-switcherjs")
+</body>
 </html>

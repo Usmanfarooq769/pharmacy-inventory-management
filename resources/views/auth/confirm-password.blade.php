@@ -15,7 +15,8 @@
 
             <div>
                 <x-label for="password" value="{{ __('Password') }}" />
-                <x-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="current-password" autofocus />
+                <x-input id="password" class="block mt-1 w-full" type="password" name="password" required
+                    autocomplete="current-password" autofocus />
             </div>
 
             <div class="flex justify-end mt-4">
@@ -33,25 +34,26 @@
 @include('auth-1.header-link')
 
 @if ($errors->any())
-    <script>
-        Swal.fire({
-            icon: 'error',
-            title: 'Validation Error',
-            html: `{!! implode('<br>', $errors->all()) !!}`,
-            confirmButtonText: 'OK'
-        });
-    </script>
+<script>
+Swal.fire({
+    icon: 'error',
+    title: 'Validation Error',
+    html: `{!! implode('<br>', $errors->all()) !!}`,
+    confirmButtonText: 'OK'
+});
+</script>
 @endif
 
 @if (session('status'))
-    <script>
-        Swal.fire({
-            icon: 'success',
-            title: 'Success!',
-            text: '{{ session('status') }}',
-            confirmButtonText: 'OK'
-        });
-    </script>
+<script>
+Swal.fire({
+    icon: 'success',
+    title: 'Success!',
+    text: '{{ session('
+    status ') }}',
+    confirmButtonText: 'OK'
+});
+</script>
 @endif
 
 <body>
@@ -82,9 +84,10 @@
                                                         Password <sup class="fs-12 text-danger">*</sup>
                                                     </label>
                                                     <div class="input-group">
-                                                        <input class="form-control" name="password" id="confirm-password"
-                                                            placeholder="Enter your password" type="password" required
-                                                            autocomplete="current-password" autofocus>
+                                                        <input class="form-control" name="password"
+                                                            id="confirm-password" placeholder="Enter your password"
+                                                            type="password" required autocomplete="current-password"
+                                                            autofocus>
                                                         <button class="btn btn-primary-light" type="button"
                                                             onclick="togglePassword('confirm-password', this)">
                                                             <i class="ri-eye-off-line align-middle"></i>
@@ -105,7 +108,7 @@
                                         <div class="text-center">
                                             <p class="text-muted mt-4 mb-0">
                                                 <a class="text-primary fw-medium text-decoration-underline"
-                                                   href="{{ route('login') }}">
+                                                    href="{{ route('login') }}">
                                                     Back to Login
                                                 </a>
                                             </p>
@@ -113,8 +116,10 @@
                                     </div>
                                 </div>
 
-                                <div class="col-xl-6 border rounded bg-secondary-transparent border-secondary border-opacity-10">
-                                    <div class="d-flex align-items-center justify-content-around flex-column gap-4 h-100">
+                                <div
+                                    class="col-xl-6 border rounded bg-secondary-transparent border-secondary border-opacity-10">
+                                    <div
+                                        class="d-flex align-items-center justify-content-around flex-column gap-4 h-100">
                                         <img src="../assets/images/authentication/5.png" alt="Confirm Password"
                                             class="img-fluid m-auto mb-3 flex-fill mt-4">
                                         <div class="flex-fill text-center">
@@ -140,4 +145,5 @@
     <!-- Show Password JS -->
     <script src="../assets/js/show-password.js"></script>
 </body>
+
 </html>

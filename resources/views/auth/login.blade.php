@@ -1,26 +1,27 @@
 @include('auth-1.header-link')
 
-   @if ($errors->any())
-                                        <script>
-                                        Swal.fire({
-                                            icon: 'error',
-                                            title: 'Validation Error',
-                                            html: `{!! implode('<br>', $errors->all()) !!}`,
-                                            confirmButtonText: 'OK'
-                                        });
-                                        </script>
-                                        @endif
+@if ($errors->any())
+<script>
+Swal.fire({
+    icon: 'error',
+    title: 'Validation Error',
+    html: `{!! implode('<br>', $errors->all()) !!}`,
+    confirmButtonText: 'OK'
+});
+</script>
+@endif
 
-                                        @if (session('status'))
-                                        <script>
-                                        Swal.fire({
-                                            icon: 'success',
-                                            title: 'Success!',
-                                            text: '{{ session('status') }}',
-                                            confirmButtonText: 'OK'
-                                        });
-                                        </script>
-                                        @endif
+@if (session('status'))
+<script>
+Swal.fire({
+    icon: 'success',
+    title: 'Success!',
+    text: '{{ session('
+    status ') }}',
+    confirmButtonText: 'OK'
+});
+</script>
+@endif
 
 
 <body>
@@ -35,9 +36,6 @@
                             <div class="row mx-0 align-items-center">
                                 <div class="col-xl-6">
                                     <div class="p-3">
-
-                                     
-
                                         <form method="POST" action="{{ route('login') }}">
                                             @csrf
                                             <div class="row gy-3">
@@ -99,18 +97,19 @@
 
                                             </div>
                                         </form>
-                                       
+
                                         <div class="text-center">
-                                          <p class="text-muted mt-4 mb-0">
-                                                Click here to go back to 
+                                            <p class="text-muted mt-4 mb-0">
+                                                Click here to go back to
                                                 <a class="text-primary fw-medium text-decoration-underline"
-                                                href="{{ route('register') }}">Sign Up</a>
+                                                    href="{{ route('register') }}">Sign Up</a>
                                             </p>
-                                                
+
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-xl-6 border rounded bg-secondary-transparent border-secondary border-opacity-10">
+                                <div
+                                    class="col-xl-6 border rounded bg-secondary-transparent border-secondary border-opacity-10">
                                     <div
                                         class="d-flex align-items-center justify-content-around flex-column gap-4 h-100">
                                         <img src="../assets/images/authentication/5.png" alt="Sign In"

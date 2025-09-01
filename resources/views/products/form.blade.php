@@ -1,72 +1,84 @@
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <!-- Log on to codeastro.com for more projects! -->
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <form id="form-item" method="post" class="form-horizontal" data-toggle="validator"
-                enctype="multipart/form-data">
+            <form id="form-item" method="post" class="form-horizontal" enctype="multipart/form-data">
                 @csrf
                 @method('POST')
-                <div class="modal-header">
-                    <h3 class="modal-title"></h3>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 
+                <div class="modal-header">
+                    <h4 class="modal-title">Add Product</h4>
+                    <button type="button" class="btn-close " data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <input type="hidden" id="id" name="id">
-                    <div class="card-body">
-                        <div class="mb-3">
-                            <label class="form-label">Name</label>
-                            <input type="text" class="form-control" id="nama" name="nama" autofocus required>
-                            <span class="help-block with-errors"></span>
-                        </div>
+                    <input type="hidden" id="old_image" name="old_image">
+                    <div class="mb-3">
+                        <label class="form-label">Product Name <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="nama" name="nama" placeholder="Enter product name"
+                            autofocus required>
+                        <div class="invalid-feedback"></div>
+                    </div>
 
-                        <div class="mb-3">
-                            <label class="form-label">Price</label>
-                            <input type="number" class="form-control" id="harga" name="harga" required>
-                            <span class="help-block with-errors"></span>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Quantity</label>
-                            <input type="number" class="form-control" id="qty" name="qty" required>
-                            <span class="help-block with-errors"></span>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Image</label>
-                            <input type="hidden" id="old_image" name="old_image">
-                            <input type="file" class="form-control" id="image" name="image">
+                    <div class="mb-3">
+                        <label class="form-label">Category <span class="text-danger">*</span></label>
+                        <select name="category_id" id="category_id" class="form-control select2" required>
+                            <option value="">-- Select Category --</option>
+                            @foreach($category as $id => $name)
+                            <option value="{{ $id }}">{{ $name }}</option>
+                            @endforeach
+                        </select>
+                        <div class="invalid-feedback"></div>
+                    </div>
 
-                            <!-- Image Preview -->
-                            <img id="imagePreview" src="" alt="Current Image" class="mt-2" style="max-height: 100px;">
-
-                            <span class="help-block with-errors"></span>
+                    <div class="mb-3">
+                        <label class="form-label">Price <span class="text-danger">*</span></label>
+                        <div class="input-group">
+                            <span class="input-group-text">$</span>
+                            <input type="number" class="form-control" id="price" name="price" placeholder="0.00"
+                                step="0.01" min="0" required>
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label">Category</label>
-                            <select name="category_id" id="category_id"
-                                class="js-example-placeholder-single js-states form-control select2 "
-                                style="width:100% !important" required>
-                                <option value="" selected>-- Choose Category --</option>
-                                @foreach($category as $id => $name)
-                                <option value="{{ $id }}">{{ $name }}</option>
-                                @endforeach
-                            </select>
+                        <div class="invalid-feedback"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Quantity <span class="text-danger">*</span></label>
+                        <input type="number" class="form-control" id="qty" name="qty" placeholder="0" min="0" required>
+                        <div class="invalid-feedback"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Product Image <span class="text-muted">(Optional)</span></label>
+                        <input type="file" class="form-control" id="image" name="image" accept="image/*">
+                        <div class="form-text">Supported formats: JPG, JPEG, PNG, GIF, BMP, WEBP, SVG. Max size: 2MB
+                        </div>
+                        <div class="invalid-feedback"></div>
 
-                            <span class="help-block with-errors"></span>
+                        <!-- Image Preview -->
+                        <div class="mt-3 text-center">
+                            <img id="imagePreview" src="" alt="Image Preview" class="img-thumbnail"
+                                style="max-height: 150px; display: none;">
                         </div>
                     </div>
-                    <!-- /.box-body -->
-
                 </div>
 
-                <div class="modal-footer text-end">
-                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle me-1"></i> Cancel
+                    </button>
+                    <button type="submit" class="btn btn-primary btn-submit">
+                        <i class="bi bi-check-circle me-1"></i> Submit
+                    </button>
                 </div>
-
             </form>
         </div>
-        <!-- /.modal-content -->
     </div>
-    <!-- /.modal-dialog -->
-</div><!-- Log on to codeastro.com for more projects! -->
-<!-- /.modal -->
+</div>
+
+<style>
+.img-thumbnail {
+    border: 2px dashed #dee2e6;
+    background-color: #f8f9fa;
+}
+
+.btn-submit:disabled {
+    opacity: 0.6;
+}
+</style>

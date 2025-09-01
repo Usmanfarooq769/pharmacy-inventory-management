@@ -42,7 +42,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title"></h5>
-                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="mb-2">
@@ -51,11 +51,14 @@
                     </div>
                     <div class="mb-2">
                         <label class="form-label">Permissions</label>
-                        <select id="role_permissions" name="permissions[]" multiple class="form-control">
+                        <select class="js-example-basic-multiple" name="states[]" multiple="multiple"
+                            style="z-index:999 !important;">
+                            <option value="" disabled>Select permissions</option>
                             @foreach($permissions as $id => $name)
                             <option value="{{ $id }}">{{ $name }}</option>
                             @endforeach
                         </select>
+
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -95,7 +98,7 @@ $(function() {
         ]
     });
 
-    
+
 
     $('#createRoleBtn').click(function() {
         $('#roleForm')[0].reset();
@@ -159,6 +162,14 @@ $(function() {
     // init select2
     $('#role_permissions').select2({
         width: '100%'
+    });
+});
+
+$(document).ready(function() {
+    $('.js-example-basic-multiple').select2({
+        placeholder: "Select permissions", // 👈 placeholder text
+        allowClear: true, // 👈 adds a little "x" to clear selection
+        dropdownParent: $('#roleModal')
     });
 });
 </script>

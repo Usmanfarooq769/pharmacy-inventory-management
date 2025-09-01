@@ -20,6 +20,7 @@ class RoleUserController extends Controller
 	 public function getData(Request $request)
     {
         $query = User::with('roles')->select('users.*');
+        dd($query);
         return DataTables::of($query)
             ->addIndexColumn()
             ->addColumn('roles', function($u) {

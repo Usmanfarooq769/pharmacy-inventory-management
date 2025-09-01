@@ -14,7 +14,7 @@
                     <input type="hidden" id="id" name="id">
                     <div class="mb-3">
                         <label for="name" class="form-label">Name</label>
-                        <input type="text" class="form-control" id="name" name="name" required>
+                        <input type="text" class="form-control" id="name" name="name" placeholder="Enter categories Name" required>
                         <div class="invalid-feedback">Please enter a name.</div>
                     </div>
                 </div>

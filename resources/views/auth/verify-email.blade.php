@@ -9,9 +9,9 @@
         </div>
 
         @if (session('status') == 'verification-link-sent')
-            <div class="mb-4 font-medium text-sm text-green-600">
-                {{ __('A new verification link has been sent to the email address you provided in your profile settings.') }}
-            </div>
+        <div class="mb-4 font-medium text-sm text-green-600">
+            {{ __('A new verification link has been sent to the email address you provided in your profile settings.') }}
+        </div>
         @endif
 
         <div class="mt-4 flex items-center justify-between">
@@ -26,16 +26,15 @@
             </form>
 
             <div>
-                <a
-                    href="{{ route('profile.show') }}"
-                    class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                >
+                <a href="{{ route('profile.show') }}"
+                    class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                     {{ __('Edit Profile') }}</a>
 
                 <form method="POST" action="{{ route('logout') }}" class="inline">
                     @csrf
 
-                    <button type="submit" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ms-2">
+                    <button type="submit"
+                        class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ms-2">
                         {{ __('Log Out') }}
                     </button>
                 </form>
@@ -49,25 +48,26 @@
 @include('auth-1.header-link')
 
 @if ($errors->any())
-    <script>
-        Swal.fire({
-            icon: 'error',
-            title: 'Validation Error',
-            html: `{!! implode('<br>', $errors->all()) !!}`,
-            confirmButtonText: 'OK'
-        });
-    </script>
+<script>
+Swal.fire({
+    icon: 'error',
+    title: 'Validation Error',
+    html: `{!! implode('<br>', $errors->all()) !!}`,
+    confirmButtonText: 'OK'
+});
+</script>
 @endif
 
 @if (session('status'))
-    <script>
-        Swal.fire({
-            icon: 'success',
-            title: 'Success!',
-            text: '{{ session('status') }}',
-            confirmButtonText: 'OK'
-        });
-    </script>
+<script>
+Swal.fire({
+    icon: 'success',
+    title: 'Success!',
+    text: '{{ session('
+    status ') }}',
+    confirmButtonText: 'OK'
+});
+</script>
 @endif
 
 <body>
@@ -85,16 +85,16 @@
 
                                         <h4 class="mb-3">Verify Your Email</h4>
                                         <p class="text-muted">
-                                            Before continuing, could you verify your email address by clicking 
-                                            on the link we just emailed to you?  
+                                            Before continuing, could you verify your email address by clicking
+                                            on the link we just emailed to you?
                                             If you didn’t receive the email, we will gladly send you another.
                                         </p>
 
                                         @if (session('status') == 'verification-link-sent')
-                                            <div class="alert alert-success mt-3">
-                                                A new verification link has been sent to the email address 
-                                                you provided in your profile settings.
-                                            </div>
+                                        <div class="alert alert-success mt-3">
+                                            A new verification link has been sent to the email address
+                                            you provided in your profile settings.
+                                        </div>
                                         @endif
 
                                         <div class="d-flex justify-content-center gap-2 mt-4 flex-wrap">
@@ -133,5 +133,5 @@
     <!-- Bootstrap JS -->
     <script src="../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
-</html>
 
+</html>

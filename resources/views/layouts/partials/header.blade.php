@@ -383,14 +383,14 @@
                     <li><a class="dropdown-item d-flex align-items-center" href="{{route('mail-settings')}}"><i class="ti ti-adjustments-horizontal fs-18 me-2 text-gray fw-normal"></i>Account Settings</a></li>
                     <li> <hr class="dropdown-divider"> </li>
                     <li>
-    <form method="POST" action="{{ route('logout') }}" id="logout-form">
-        @csrf
-        <button type="submit" class="dropdown-item d-flex align-items-center">
-            <i class="ti ti-logout fs-18 me-2 text-gray fw-normal"></i> 
-            Sign Out
-        </button>
-    </form>
-</li>
+                        <form method="POST" action="{{ route('logout') }}" id="logout-form">
+                            @csrf
+                            <button type="submit" class="dropdown-item d-flex align-items-center">
+                                <i class="ti ti-logout fs-18 me-2 text-gray fw-normal"></i> 
+                                Sign Out
+                            </button>
+                        </form>
+                    </li>
 
                 </ul>
             </div>  

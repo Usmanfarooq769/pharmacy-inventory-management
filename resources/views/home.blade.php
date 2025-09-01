@@ -119,7 +119,7 @@
                             </div>
                             <div>
                                 <p class="fw-medium text-muted mb-2">Total Outgoing</p>
-                                <h4 class="fw-semibold mb-2">{{ \App\Models\Product_Keluar::count()  }}</h4>
+                                <h4 class="fw-semibold mb-2">{{ \App\Models\ProductOut::count()  }}</h4>
                                 <div>
                                     <a href="{{ route('productsOut.index') }}" class="small-box-footer">More info <i
                                             class="fa fa-arrow-circle-right"></i></a>
@@ -138,7 +138,7 @@
                             </div>
                             <div>
                                 <p class="fw-medium text-muted mb-2">Total Purchase</p>
-                                <h4 class="fw-semibold mb-2">{{ \App\Models\Product_Masuk::count() }}</h4>
+                                <h4 class="fw-semibold mb-2">{{ \App\Models\ProductIn::count() }}</h4>
                                 <div>
                                     <a href="{{ route('productsIn.index') }}" class="small-box-footer">More info <i
                                             class="fa fa-arrow-circle-right"></i></a>
@@ -1237,6 +1237,6 @@
                     </div>
                 </div>
                 <!-- End:: row-3 -->
-    
+
 
 @endsection

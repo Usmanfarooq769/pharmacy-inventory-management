@@ -3,13 +3,13 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SaleController;
 use App\Http\Controllers\ProductController;
-use App\Http\Controllers\ProductMasukController;
+use App\Http\Controllers\ProductInController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CustomerController;
-use App\Http\Controllers\ProductKeluarController;
+use App\Http\Controllers\ProductOutController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleUserController;
@@ -40,9 +40,7 @@ Route::get('mail-settings', function () {
 })->name('mail-settings');
 
 
-Route::get('sign-in-cover', function () {
-    return view('sign-in-cover');
-})->name('sign-in-cover');
+
 
 
 Route::get('mail', function () {
@@ -98,22 +96,22 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::resource('products', ProductController::class); 
 	Route::get('/apiProducts', [ProductController::class, 'apiProducts'])->name('api.products');
     
-    Route::get('/product-keluar', [ProductKeluarController::class, 'index'])->name('productsOut.index');
-    Route::get('/product-keluar/data', [ProductKeluarController::class, 'getData'])->name('product_keluar.data');
-    Route::post('/product-keluar/store', [ProductKeluarController::class, 'store'])->name('product_keluar.store');
-    Route::get('/product-keluar/{id}/edit', [ProductKeluarController::class, 'edit'])->name('product_keluar.edit');
-    Route::delete('/product-keluar/{id}', [ProductKeluarController::class, 'destroy'])->name('product_keluar.destroy');
-    Route::get('/invoice/data', [ProductKeluarController::class, 'data'])->name('invoice.data');
+    Route::get('/product-out', [ProductOutController::class, 'index'])->name('productsOut.index');
+    Route::get('/product-out/data', [ProductOutController::class, 'getData'])->name('product_out.data');
+    Route::post('/product-out/store', [ProductOutController::class, 'store'])->name('product_out.store');
+    Route::get('/product-out/{id}/edit', [ProductOutController::class, 'edit'])->name('product_out.edit');
+    Route::delete('/product-outr/{id}', [ProductOutController::class, 'destroy'])->name('product_out.destroy');
+    Route::get('/invoice/data', [ProductOutController::class, 'data'])->name('invoice.data');
 
 
-	// Route::resource('productsIn', ProductMasukController::class);
+	// Route::resource('productsIn', ProductInController::class);
 
-     Route::get('/productsIn', [ProductMasukController::class, 'index'])->name('productsIn.index');
-    Route::get('/product-masuk/data', [ProductMasukController::class, 'getData'])->name('product_masuk.data');
-    Route::get('/product-masuk/invoice-data', [ProductMasukController::class, 'invoiceData'])->name('product_masuk.invoiceData');
-    Route::post('/product-masuk/store', [ProductMasukController::class, 'store'])->name('product_masuk.store');
-    Route::get('/product-masuk/{id}/edit', [ProductMasukController::class, 'edit'])->name('product_masuk.edit');
-    Route::delete('/product-masuk/{id}', [ProductMasukController::class, 'destroy'])->name('product_masuk.destroy');
+     Route::get('/products-in', [ProductInController::class, 'index'])->name('productsIn.index');
+    Route::get('/product-in/data', [ProductInController::class, 'getData'])->name('product_in.data');
+    Route::get('/product-in/invoice-data', [ProductInController::class, 'invoiceData'])->name('product_in.invoiceData');
+    Route::post('/product-in/store', [ProductInController::class, 'store'])->name('product_in.store');
+    Route::get('/product-in/{id}/edit', [ProductInController::class, 'edit'])->name('product_in.edit');
+    Route::delete('/product-in/{id}', [ProductInController::class, 'destroy'])->name('product_in.destroy');
 
 
 	Route::resource('user', UserController::class);

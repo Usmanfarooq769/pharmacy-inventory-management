@@ -14,9 +14,6 @@ class RoleController extends Controller
         $permissions = Permission::pluck('name','id'); // for the create/edit modal
         return view('roles.index', compact('permissions'));
     }
-
- 
-
     public function getData(Request $request)
     {
         $query = Role::with('permissions')->select('roles.*');

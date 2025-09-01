@@ -1,26 +1,26 @@
-
 @include('auth-1.header-link')
 
 @if ($errors->any())
-    <script>
-        Swal.fire({
-            icon: 'error',
-            title: 'Validation Error',
-            html: `{!! implode('<br>', $errors->all()) !!}`,
-            confirmButtonText: 'OK'
-        });
-    </script>
+<script>
+Swal.fire({
+    icon: 'error',
+    title: 'Validation Error',
+    html: `{!! implode('<br>', $errors->all()) !!}`,
+    confirmButtonText: 'OK'
+});
+</script>
 @endif
 
 @if (session('status'))
-    <script>
-        Swal.fire({
-            icon: 'success',
-            title: 'Success!',
-            text: '{{ session('status') }}',
-            confirmButtonText: 'OK'
-        });
-    </script>
+<script>
+Swal.fire({
+    icon: 'success',
+    title: 'Success!',
+    text: '{{ session('
+    status ') }}',
+    confirmButtonText: 'OK'
+});
+</script>
 @endif
 
 <body>
@@ -40,9 +40,8 @@
                                 @csrf
                                 <div class="mb-3">
                                     <label for="reset-email" class="form-label">Email address</label>
-                                    <input type="email" class="form-control" id="reset-email" 
-                                           name="email" value="{{ old('email') }}" 
-                                           placeholder="Enter your email" required autofocus>
+                                    <input type="email" class="form-control" id="reset-email" name="email"
+                                        value="{{ old('email') }}" placeholder="Enter your email" required autofocus>
                                 </div>
 
                                 <div class="d-grid">
@@ -67,5 +66,5 @@
     <!-- Bootstrap JS -->
     <script src="../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
-</html>
 
+</html>

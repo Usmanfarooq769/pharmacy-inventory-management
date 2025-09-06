@@ -378,7 +378,7 @@
                       
                         </div>
                     </li>
-                    <li><a class="dropdown-item d-flex align-items-center" href="{{route('profile')}}"><i class="ti ti-user-circle fs-18 me-2 text-gray fw-normal"></i>My Profile</a></li>
+                    <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="ti ti-user-circle fs-18 me-2 text-gray fw-normal"></i>My Profile</a></li>
                     <li><a class="dropdown-item d-flex align-items-center" href= "{{route('mail')}}"><i class="ti ti-inbox fs-18 me-2 text-gray fw-normal"></i>Mail Inbox <span class="badge bg-success ms-auto">06</span></a></li>
                     <li><a class="dropdown-item d-flex align-items-center" href="{{route('mail-settings')}}"><i class="ti ti-adjustments-horizontal fs-18 me-2 text-gray fw-normal"></i>Account Settings</a></li>
                     <li> <hr class="dropdown-divider"> </li>

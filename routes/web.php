@@ -12,9 +12,22 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ProductOutController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\PermissionController;
-use App\Http\Controllers\RoleUserController;
+use App\Http\Controllers\SystemUserController;
+use App\Http\Controllers\ProfileController;
 
 
+
+Route::get('/dashboard', function () {
+    return view('home');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+require __DIR__.'/auth.php';
 
 
 
@@ -22,25 +35,17 @@ Route::get('/', function () {
     return redirect()->route('login');
 });
 
-Route::middleware([
-    'auth:sanctum',
-    config('jetstream.auth_session'),
-    'verified',
-])->group(function () {
-    Route::get('/dashboard', [HomeController::class, 'index'])->name('home');
-});
+
+
 
 // user 
-Route::get('profile', function () {
-    return view('profile');
-})->name('profile');
+// Route::get('profile', function () {
+//     return view('profile');
+// })->name('profile');
 
 Route::get('mail-settings', function () {
     return view('mail-settings');
 })->name('mail-settings');
-
-
-
 
 
 Route::get('mail', function () {
@@ -54,17 +59,14 @@ Route::get('mail', function () {
     Route::post('roles/store', [RoleController::class, 'store'])->name('roles.store');
     Route::get('roles/{id}/edit', [RoleController::class, 'edit'])->name('roles.edit');
     Route::delete('roles/{id}', [RoleController::class, 'destroy'])->name('roles.destroy');
-
-
-    // Permissions (optional page)
    Route::get('permissions/data', [PermissionController::class, 'getData'])->name('permissions.data');
    Route::resource('permissions', PermissionController::class)->except(['create', 'edit', 'show']);
     // Users & assign role
-    Route::get('userrole', [RoleUserController::class, 'index'])->name('users.index');
-    Route::get('userrole/data', [RoleUserController::class, 'getData'])->name('users.data');
-    Route::get('userrole/{id}/edit-role', [RoleUserController::class, 'editRole'])->name('users.editRole'); // return user + role info
-    Route::post('userrole/{id}/assign-role', [RoleUserController::class, 'assignRole'])->name('users.assignRole');
-// });
+    Route::get('system-users', [SystemUserController::class, 'index'])->name('users.index');
+    Route::get('system-users/data', [SystemUserController::class, 'getData'])->name('users.data');
+   Route::post('system-users/store', [SystemUserController::class, 'store'])->name('users.store');
+Route::get('system-users/{id}/edit', [SystemUserController::class, 'edit'])->name('users.edit');
+Route::delete('system-users/{id}', [SystemUserController::class, 'destroy'])->name('users.destroy');
 
 //
 

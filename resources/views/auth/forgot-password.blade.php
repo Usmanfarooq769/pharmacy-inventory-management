@@ -1,4 +1,4 @@
-@include('auth-1.header-link')
+@include('auth.header-link')
 
 @if ($errors->any())
 <script>
@@ -24,7 +24,7 @@ Swal.fire({
 @endif
 
 <body>
-    @include('auth-1.switcher')
+    @include('auth.switcher')
     <div class="authentication-background">
         <div class="container-lg">
             <div class="row justify-content-center authentication authentication-basic align-items-center h-100">

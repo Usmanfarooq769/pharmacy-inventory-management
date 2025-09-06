@@ -1,25 +1,83 @@
+<x-guest-layout>
+    <form method="POST" action="{{ route('register') }}">
+        @csrf
+
+        <!-- Name -->
+        <div>
+            <x-input-label for="name" :value="__('Name')" />
+            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required
+                autofocus autocomplete="name" />
+            <x-input-error :messages="$errors->get('name')" class="mt-2" />
+        </div>
+
+        <!-- Email Address -->
+        <div class="mt-4">
+            <x-input-label for="email" :value="__('Email')" />
+            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required
+                autocomplete="username" />
+            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+        </div>
+
+        <!-- Password -->
+        <div class="mt-4">
+            <x-input-label for="password" :value="__('Password')" />
+
+            <x-text-input id="password" class="block mt-1 w-full" type="password" name="password" required
+                autocomplete="new-password" />
+
+            <x-input-error :messages="$errors->get('password')" class="mt-2" />
+        </div>
+
+        <!-- Confirm Password -->
+        <div class="mt-4">
+            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
+
+            <x-text-input id="password_confirmation" class="block mt-1 w-full" type="password"
+                name="password_confirmation" required autocomplete="new-password" />
+
+            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
+        </div>
+
+        <div class="flex items-center justify-end mt-4">
+            <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                href="{{ route('login') }}">
+                {{ __('Already registered?') }}
+            </a>
+
+            <x-primary-button class="ms-4">
+                {{ __('Register') }}
+            </x-primary-button>
+        </div>
+    </form>
+</x-guest-layout>
+
+
+
+
+
 @include('auth-1.header-link')
 
 {{-- Validation Errors with SweetAlert --}}
 @if ($errors->any())
 <script>
-    Swal.fire({
-        icon: 'error',
-        title: 'Validation Error',
-        html: `{!! implode('<br>', $errors->all()) !!}`,
-        confirmButtonText: 'OK'
-    });
+Swal.fire({
+    icon: 'error',
+    title: 'Validation Error',
+    html: `{!! implode('<br>', $errors->all()) !!}`,
+    confirmButtonText: 'OK'
+});
 </script>
 @endif
 
 @if (session('status'))
 <script>
-    Swal.fire({
-        icon: 'success',
-        title: 'Success!',
-        text: '{{ session('status') }}',
-        confirmButtonText: 'OK'
-    });
+Swal.fire({
+    icon: 'success',
+    title: 'Success!',
+    text: '{{ session('
+    status ') }}',
+    confirmButtonText: 'OK'
+});
 </script>
 @endif
 
@@ -45,9 +103,14 @@
                                                     <label class="form-label text-default" for="register-name">
                                                         Name <sup class="fs-12 text-danger">*</sup>
                                                     </label>
-                                                    <input class="form-control" id="register-name" name="name"
-                                                        value="{{ old('name') }}" placeholder="Enter your full name"
-                                                        type="text" required autofocus autocomplete="name">
+                                                    <input type="text"
+                                                        class="form-control @error('name') is-invalid @enderror"
+                                                        id="register-name" name="name" value="{{ old('name') }}"
+                                                        placeholder="Enter your full name" required autofocus
+                                                        autocomplete="name">
+                                                    @error('name')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                    @enderror
                                                 </div>
 
                                                 {{-- Email --}}
@@ -55,9 +118,14 @@
                                                     <label class="form-label text-default" for="register-email">
                                                         Email <sup class="fs-12 text-danger">*</sup>
                                                     </label>
-                                                    <input class="form-control" id="register-email" name="email"
-                                                        value="{{ old('email') }}" placeholder="Enter your email"
-                                                        type="email" required autocomplete="username">
+                                                    <input type="email"
+                                                        class="form-control @error('email') is-invalid @enderror"
+                                                        id="register-email" name="email" value="{{ old('email') }}"
+                                                        placeholder="Enter your email address" required
+                                                        autocomplete="username">
+                                                    @error('email')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                    @enderror
                                                 </div>
 
                                                 {{-- Password --}}
@@ -67,13 +135,16 @@
                                                     </label>
                                                     <div class="input-group">
                                                         <input class="form-control" id="register-password"
-                                                            name="password" placeholder="Enter your password"
-                                                            type="password" required autocomplete="new-password">
+                                                            class="form-control @error('password') is-invalid @enderror"
+                                                            name="password" placeholder="Enter your password">
                                                         <button class="btn btn-primary-light" type="button"
                                                             onclick="togglePassword('register-password', this)">
                                                             <i class="ri-eye-off-line align-middle"></i>
                                                         </button>
                                                     </div>
+                                                    @error('password')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                    @enderror
                                                 </div>
 
                                                 {{-- Confirm Password --}}
@@ -82,27 +153,31 @@
                                                         for="register-password-confirm">
                                                         Confirm Password <sup class="fs-12 text-danger">*</sup>
                                                     </label>
-                                                    <input class="form-control" id="register-password-confirm"
-                                                        name="password_confirmation"
+                                                    <input
+                                                        class="form-control @error('password_confirmation') is-invalid @enderror"
+                                                        id="register-password-confirm" name="password_confirmation"
                                                         placeholder="Confirm your password" type="password" required
                                                         autocomplete="new-password">
+                                                    @error('password_confirmation')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                    @enderror
                                                 </div>
 
                                                 {{-- Terms & Privacy --}}
-                                                @if (Laravel\Jetstream\Jetstream::hasTermsAndPrivacyPolicyFeature())
-                                                <div class="col-12">
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" name="terms"
-                                                            id="terms" required>
-                                                        <label class="form-check-label" for="terms">
-                                                            {!! __('I agree to the :terms_of_service and :privacy_policy', [
-                                                                'terms_of_service' => '<a target="_blank" href="'.route('terms.show').'" class="text-primary">'.__('Terms of Service').'</a>',
-                                                                'privacy_policy' => '<a target="_blank" href="'.route('policy.show').'" class="text-primary">'.__('Privacy Policy').'</a>',
-                                                            ]) !!}
-                                                        </label>
-                                                    </div>
+                                                <div class="mb-3 form-check">
+                                                    <input type="checkbox"
+                                                        class="form-check-input @error('terms') is-invalid @enderror"
+                                                        id="terms" name="terms" required>
+                                                    <label class="form-check-label" for="terms">
+                                                        I agree to the <a href="#" class="text-primary">Terms of
+                                                            Service</a> and
+                                                        <a href="#" class="text-primary">Privacy Policy</a>
+                                                    </label>
+                                                    @error('terms')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                    @enderror
                                                 </div>
-                                                @endif
+
 
                                                 {{-- Submit --}}
                                                 <div class="col-12">
@@ -130,12 +205,14 @@
                                 {{-- Right Side --}}
                                 <div
                                     class="col-xl-6 border rounded bg-secondary-transparent border-secondary border-opacity-10">
-                                    <div class="d-flex align-items-center justify-content-around flex-column gap-4 h-100">
+                                    <div
+                                        class="d-flex align-items-center justify-content-around flex-column gap-4 h-100">
                                         <img src="../assets/images/authentication/5.png" alt="Register"
                                             class="img-fluid m-auto mb-3 flex-fill mt-4">
                                         <div class="flex-fill text-center">
                                             <h6 class="mb-2">Create Your Account</h6>
-                                            <p class="mb-0 text-muted fw-normal fs-12">Sign up to start managing your pharmacy inventory.</p>
+                                            <p class="mb-0 text-muted fw-normal fs-12">Sign up to start managing your
+                                                pharmacy inventory.</p>
                                         </div>
                                         <div class="d-flex mb-2 justify-content-between gap-2 flex-wrap flex-lg-nowrap">
                                             <button
@@ -172,6 +249,3 @@
 </body>
 
 </html>
-
-
-

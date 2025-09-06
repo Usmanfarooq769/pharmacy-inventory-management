@@ -1,4 +1,4 @@
-@include('auth-1.header-link')
+@include('auth.header-link')
 
 @if ($errors->any())
 <script>
@@ -16,17 +16,15 @@ Swal.fire({
 Swal.fire({
     icon: 'success',
     title: 'Success!',
-    text: '{{ session('
-    status ') }}',
+    text: '{{ session('status') }}',
     confirmButtonText: 'OK'
 });
 </script>
 @endif
 
-
 <body>
+    @include('auth.switcher')
 
-    @include('auth-1.switcher')
     <div class="authentication-background">
         <div class="container-lg">
             <div class="row justify-content-center authentication authentication-basic align-items-center h-100">
@@ -47,11 +45,11 @@ Swal.fire({
                                                     </label>
                                                     <input class="form-control" name="email" id="signin-email"
                                                         value="{{ old('email') }}"
-                                                        placeholder="Enter your email or contact number" type="text"
+                                                        placeholder="Enter your email" type="email"
                                                         required autofocus autocomplete="username">
                                                 </div>
 
-                                                <!-- {{-- Password --}} -->
+                                                {{-- Password --}}
                                                 <div class="col-12">
                                                     <label class="form-label text-default" for="signin-password">
                                                         Password <sup class="fs-12 text-danger">*</sup>
@@ -67,10 +65,9 @@ Swal.fire({
                                                     </div>
                                                 </div>
 
-                                                <!-- {{-- Remember me + Forgot password --}} -->
+                                                {{-- Remember me + Forgot password --}}
                                                 <div class="col-12">
-                                                    <div
-                                                        class="form-check d-flex justify-content-between align-items-center">
+                                                    <div class="form-check d-flex justify-content-between align-items-center">
                                                         <div>
                                                             <input class="form-check-input" type="checkbox"
                                                                 name="remember" id="rememberMe">
@@ -94,20 +91,20 @@ Swal.fire({
                                                         Log in
                                                     </button>
                                                 </div>
-
                                             </div>
                                         </form>
 
                                         <div class="text-center">
                                             <p class="text-muted mt-4 mb-0">
-                                                Click here to go back to
+                                                Don’t have an account?
                                                 <a class="text-primary fw-medium text-decoration-underline"
                                                     href="{{ route('register') }}">Sign Up</a>
                                             </p>
-
                                         </div>
                                     </div>
                                 </div>
+
+                                {{-- Side Illustration --}}
                                 <div
                                     class="col-xl-6 border rounded bg-secondary-transparent border-secondary border-opacity-10">
                                     <div
@@ -136,9 +133,9 @@ Swal.fire({
                                                 <span class="ms-2">Twitter</span>
                                             </button>
                                         </div>
-
                                     </div>
                                 </div>
+                                {{-- End Side Illustration --}}
                             </div>
                         </div>
                     </div>
@@ -149,10 +146,7 @@ Swal.fire({
 
     <!-- Bootstrap JS -->
     <script src="../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
-
     <!-- Show Password JS -->
     <script src="../assets/js/show-password.js"></script>
-
 </body>
-
 </html>

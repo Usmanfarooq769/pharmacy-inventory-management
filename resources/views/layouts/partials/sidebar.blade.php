@@ -178,12 +178,16 @@
                                 <li class="slide side-menu__label1">
                                     <a href="javascript:void(0)">Seeting</a>
                                 </li>
+                                
                                 <li class="slide">
                                     <a href="{{ route('roles.index') }}"  class="side-menu__item">Roles</a>
                                 </li>
+                               
+                                @can('permissions-list')
                                 <li class="slide">
                                     <a href="{{ route('permissions.index') }}"  class="side-menu__item">permissions</a>
                                 </li>
+                                 @endcan
                                 <li class="slide">
                                     <a href="vector-maps.html" class="side-menu__item">Vector Maps</a>
                                 </li>

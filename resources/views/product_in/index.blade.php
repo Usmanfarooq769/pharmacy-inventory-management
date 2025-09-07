@@ -79,6 +79,7 @@
 
 @push('scripts')
 
+
 <script>
 $('#supplier_id').select2({
     width: '100%',
@@ -146,8 +147,8 @@ $(function() {
                 name: 'qty'
             },
             {
-                data: 'tanggal',
-                name: 'tanggal'
+                data: 'date_in',
+                name: 'date_in'
             },
             {
                 data: 'created_at',
@@ -185,8 +186,8 @@ $(function() {
                 name: 'qty'
             },
             {
-                data: 'tanggal',
-                name: 'tanggal'
+                data: 'date_in',
+                name: 'date_in'
             },
 
         ]

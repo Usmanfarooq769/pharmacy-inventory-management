@@ -81,6 +81,8 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css">
 <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 
+<script src="{{ asset('assets/libs/flatpickr/flatpickr.min.js') }}"></script>
+<script src="{{ asset('assets/js/date&time_pickers.js') }}"></script>
 
 
 <!-- Datatables Cdn -->
@@ -101,48 +103,23 @@
 
 <!-- Internal Datatables JS -->
 <!-- <script src="{{ asset('assets/js/date&time_pickers.js') }}"></script> -->
+
+
+
 <script>
-    (function () {
-        "use strict";
+    document.addEventListener("DOMContentLoaded", function () {
+       
+        flatpickr("#date_out", {});
 
-        /* To choose date */
+        // flatpickr("#date_out", {});
+        // flatpickr("#date_out", {});
+        // flatpickr("#date_out", {});
+        // flatpickr("#date_out", {});
+        
+       
+    
 
-        /* For Time Picker With 24hr Format */
-        // flatpickr("#starttime", {
-        //     enableTime: true,
-        //     noCalendar: true,
-        //     dateFormat: "H:i",
-        //     time_12hr: true
-        // });
-        // flatpickr("#endtime", {
-        //     enableTime: true,
-        //     noCalendar: true,
-        //     dateFormat: "H:i",
-        //     time_12hr: true
-        // });
-
-
-        flatpickr("input[name='starttime']", {
-            enableTime: true,
-            noCalendar: true,
-            dateFormat: "h:i K",
-            time_12hr: true
-        });
-
-        flatpickr("input[name='endtime']", {
-            enableTime: true,
-            noCalendar: true,
-            dateFormat: "h:i K",
-            time_12hr: true
-        });
-
-
-
-
-
-
-
-    })();
+    });
 </script>
 
 

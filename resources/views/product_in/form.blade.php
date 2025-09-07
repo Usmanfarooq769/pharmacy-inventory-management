@@ -40,14 +40,18 @@
 
                         <div class="mb-3">
                             <label class="form-label">Quantity</label>
-                            <input type="number" class="form-control" id="qty" name="qty" required>
+                            <input type="number" class="form-control" id="qty" name="qty" placeholder="Enter Quantity" required>
                             <span class="help-block with-errors"></span>
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label">Date</label>
-                            <input  type="date" class="form-control date" id="tanggal"
-                                name="tanggal" required>
+                             <div class="input-group">
+                                                <div class="input-group-text text-muted"> <i class="ri-calendar-line"></i> </div>
+                                                <input type="text" class="form-control" id="weeknum" name="date_in" required placeholder="Choose date">
+                                            </div>
+                            <!-- <input  type="date" class="form-control date" id="date_in"
+                                name="date_in" required> -->
                             <span class="help-block with-errors"></span>
                         </div>
 

@@ -22,10 +22,9 @@ use App\Http\Controllers\DashboardController;
 Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
-
-// Route::get('/dashboard', function () {
-//     return view('dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
+Route::post('/dashboard/filter', [DashboardController::class, 'filterByDateRange'])->name('dashboard.filter');
+Route::get('/dashboard/updates', [DashboardController::class, 'getDashboardUpdates'])->name('dashboard.updates');
+Route::get('/dashboard/export', [DashboardController::class, 'exportData'])->name('dashboard.export');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -103,13 +102,6 @@ Route::group(['middleware' => 'auth'], function () {
 
 	Route::resource('products', ProductController::class); 
 	Route::get('/apiProducts', [ProductController::class, 'apiProducts'])->name('api.products');
-    
-    //  Route::get('/product-out', [ProductOutController::class, 'index'])->name('productsOut.index');
-    // Route::get('/product-out/data', [ProductOutController::class, 'getData'])->name('product_out.data');
-    // Route::post('/product-out/store', [ProductOutController::class, 'store'])->name('product_out.store');
-    // Route::get('/product-out/{id}/edit', [ProductOutController::class, 'edit'])->name('product_out.edit');
-    // Route::delete('/product-outr/{id}', [ProductOutController::class, 'destroy'])->name('product_out.destroy');
-    // Route::get('/invoice/data', [ProductOutController::class, 'data'])->name('invoice.data');
 
 Route::prefix('product-out')->name('product_out.')->group(function () {
     // Main CRUD routes

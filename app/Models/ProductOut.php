@@ -52,17 +52,39 @@ class ProductOut extends Model
         return $this->items->count();
     }
 
-    /**
-     * Boot method to handle model events
-     */
-    protected static function boot()
-    {
-        parent::boot();
 
-        // When deleting ProductOut, also delete its items
-        static::deleting(function ($model) {
-            $model->items()->delete();
-        });
+     public function getFormattedDateAttribute()
+    {
+        return $this->date_out->format('M d, Y');
     }
+    // Scopes
+    public function scopeByDateRange($query, $startDate, $endDate)
+    {
+        return $query->whereBetween('date_out', [$startDate, $endDate]);
+    }
+
+    public function scopeThisMonth($query)
+    {
+        return $query->whereMonth('date_out', now()->month)
+                    ->whereYear('date_out', now()->year);
+    }
+
+    public function scopeThisYear($query)
+    {
+        return $query->whereYear('date_out', now()->year);
+    }
+
+    public function scopeCompleted($query)
+    {
+        return $query->where('status', 'completed');
+    }
+
+    public function scopePending($query)
+    {
+        return $query->where('status', 'pending');
+    }
+
+
+
 
 }

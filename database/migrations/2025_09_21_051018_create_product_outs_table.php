@@ -13,13 +13,17 @@ return new class extends Migration
     {
         Schema::create('product_outs', function (Blueprint $table) {
             $table->id();
-             $table->integer('product_id')->unsigned();
-            $table->integer('customer_id')->unsigned();
-            $table->integer('qty');
+            $table->unsignedBigInteger('customer_id');
             $table->date('date_out');
-            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
-            $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
+            $table->decimal('total_amount', 10, 2)->nullable(); 
+            $table->text('notes')->nullable(); 
+            $table->enum('status', ['pending', 'completed', 'cancelled'])->default('completed'); 
             $table->timestamps();
+            $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
+            $table->index(['customer_id']);
+            $table->index(['date_out']);
+            $table->index(['status']);
+            $table->index(['created_at']);
         });
     }
 

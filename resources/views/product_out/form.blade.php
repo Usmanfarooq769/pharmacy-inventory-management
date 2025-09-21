@@ -10,8 +10,9 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
-                <div class="modal-body">
+                <div class="modal-body row">
                     <input type="hidden" id="id" name="id">
+                    <div class="col-md-6">
                     <div class="mb-3">
                         <label class="form-label">Product <span class="text-danger">*</span></label>
                         <select name="product_id" id="product_id" class="form-control select2" required>
@@ -22,6 +23,16 @@
                         </select>
                         <div class="invalid-feedback"></div>
                     </div>
+                    </div>
+                    <div class="col-md-6">
+                    <div class="mb-3">
+                        <label class="form-label">Quantity <span class="text-danger">*</span></label>
+                        <input type="number" class="form-control" id="qty" name="qty" placeholder="Enter quantity"
+                            min="1" required>
+                        <div class="invalid-feedback"></div>
+                    </div>
+                    </div>
+                    <div class="col-md-6">
                     <div class="mb-3">
                         <label class="form-label">Customer <span class="text-danger">*</span></label>
                         <select name="customer_id" id="customer_id" class="form-control select2" required>
@@ -32,12 +43,9 @@
                         </select>
                         <div class="invalid-feedback"></div>
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label">Quantity <span class="text-danger">*</span></label>
-                        <input type="number" class="form-control" id="qty" name="qty" placeholder="Enter quantity"
-                            min="1" required>
-                        <div class="invalid-feedback"></div>
                     </div>
+                    
+                    <div class="col-md-6">
                     <div class="mb-3">
                         <label class="form-label">Date <span class="text-danger">*</span></label>
                         <!-- <input type="date" class="form-control" id="date_out" name="date_out" required> -->
@@ -47,6 +55,7 @@
                                 placeholder="Choose date">
                         </div>
                         <div class="invalid-feedback"></div>
+                    </div>
                     </div>
                 </div>
                 <div class="modal-footer">

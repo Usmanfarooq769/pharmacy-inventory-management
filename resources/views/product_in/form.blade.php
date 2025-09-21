@@ -45,6 +45,12 @@
                         </div>
 
                         <div class="mb-3">
+                            <label class="form-label">Price</label>
+                            <input type="number" class="form-control" id="price" name="price" placeholder="Enter Price" required>
+                            <span class="help-block with-errors"></span>
+                        </div>
+
+                        <div class="mb-3">
                             <label class="form-label">Date</label>
                              <div class="input-group">
                                                 <div class="input-group-text text-muted"> <i class="ri-calendar-line"></i> </div>

@@ -30,6 +30,7 @@
                     <th>Product</th>
                     <th>Supplier</th>
                     <th>Quantity</th>
+                    <th>Price</th>
                     <th>Date</th>
                     <th>Created At</th>
                     <th>Action</th>
@@ -59,7 +60,7 @@
                     <th>ID</th>
                     <th>Products</th>
                     <th>Supplier</th>
-                    <th>Qty.</th>
+                    <th>Qty</th>
                     <th>In Date</th>
                 </tr>
             </thead>
@@ -145,6 +146,10 @@ $(function() {
             {
                 data: 'qty',
                 name: 'qty'
+            },
+            {
+                data: 'price',
+                name: 'price'
             },
             {
                 data: 'date_in',

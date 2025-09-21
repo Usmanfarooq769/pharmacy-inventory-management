@@ -69,6 +69,7 @@ class ProductInController extends Controller
             'product_id'  => 'required|integer|exists:products,id',
             'supplier_id' => 'required|integer|exists:suppliers,id',
             'qty'         => 'required|integer|min:1',
+            'price'         => 'required|min:1',
             'date_in'     => 'required|date',
         ]);
 
@@ -106,13 +107,13 @@ class ProductInController extends Controller
                     $newProduct->save();
                 }
 
-                $row->update($request->only(['product_id', 'supplier_id', 'qty', 'date_in']));
+                $row->update($request->only(['product_id', 'supplier_id', 'qty','price', 'date_in']));
             } else {
                 $product = Product::findOrFail($request->product_id);
                 $product->qty += (int) $request->qty;
                 $product->save();
 
-                ProductIn::create($request->only(['product_id', 'supplier_id', 'qty', 'date_in']));
+                ProductIn::create($request->only(['product_id', 'supplier_id', 'qty', 'price', 'date_in']));
             }
 
             DB::commit();

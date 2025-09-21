@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Category;
@@ -14,59 +15,136 @@ use Carbon\Carbon;
 
 class DashboardController extends Controller
 {
-    public function index(){
-           $stats = [
-            'users'       => User::count(),
-            'categories'  => Category::count(),
-            'products'    => Product::count(),
-            'customers'   => Customer::count(),
+    public function index()
+    {
+        return view('dashboard.index', [
+            'stats' => $this->getBasicStats(),
+            'totalOrders' => $this->getTotalOrders(),
+            'totalEarnings' => $this->getTotalEarnings(),
+            'productsSold' => $this->getProductsSold(),
+            'profitPercentage' => $this->getProfitPercentage(),
+            'totalProfit' => $this->getTotalProfit(),
+            'labels' => $this->getChartLabels(),
+            'sales' => $this->getSalesData(),
+            'topProducts' => $this->getTopProducts(),
+            'todayRevenue' => $this->getTodayRevenue(),
+            'yearRevenue' => $this->getYearRevenue(),
+            'target' => $this->getTarget(),
+            'percentage' => $this->getRevenuePercentage(),
+            'totalIncome' => $this->getTotalIncome(),
+            'percentageChange' => $this->getIncomePercentageChange(),
+        ]);
+    }
+
+    /**
+     * Get basic statistics for dashboard cards
+     */
+    private function getBasicStats(): array
+    {
+        return [
+            'users' => User::count(),
+            'categories' => Category::count(),
+            'products' => Product::count(),
+            'customers' => Customer::count(),
             'productOuts' => ProductOut::count(),
-            'productIns'  => ProductIn::count(),
-            'suppliers'   => Supplier::count(),
+            'productIns' => ProductIn::count(),
+            'suppliers' => Supplier::count(),
         ];
+    }
 
-         // Total Orders
-        $totalOrders = ProductOut::count();
+    /**
+     * Get total number of orders
+     */
+    private function getTotalOrders(): int
+    {
+        return ProductOut::count();
+    }
 
-        // Products Sold
-        $productsSold = ProductOut::sum('qty');
+    /**
+     * Get total earnings from all sales
+     */
+    private function getTotalEarnings(): float
+    {
+        return (float) ProductOut::join('products', 'products.id', '=', 'product_outs.product_id')
+            ->sum(DB::raw('product_outs.qty * products.price'));
+    }
 
-        // Total Earnings (qty * product price)
-        $totalEarnings = ProductOut::with('product')
-            ->get()
-            ->sum(fn($out) => $out->qty * ($out->product->price ?? 0));
+    /**
+     * Get total quantity of products sold
+     */
+    private function getProductsSold(): int
+    {
+        return ProductOut::sum('qty');
+    }
 
-        // Purchase cost (assuming qty * price of product_in)
-        $purchaseCost = ProductIn::with('product')
-            ->get()
-            ->sum(fn($in) => $in->qty * ($in->product->price ?? 0));
+    /**
+     * Get total purchase cost
+     */
+    private function getTotalPurchaseCost(): float
+    {
+        return (float) ProductIn::join('products', 'products.id', '=', 'product_ins.product_id')
+            ->sum(DB::raw('product_ins.qty * products.price'));
+    }
 
-        // Profit = Earnings - Cost
-        $profit = $totalEarnings - $purchaseCost;
-        $profitPercentage = $totalEarnings > 0 ? round(($profit / $totalEarnings) * 100, 2) : 0;
+    /**
+     * Get total profit
+     */
+    private function getTotalProfit(): float
+    {
+        return $this->getTotalEarnings() - $this->getTotalPurchaseCost();
+    }
 
-         // Sales per month (for chart)
-        $salesData = ProductOut::select(
-        DB::raw('MONTH(product_outs.date_out) as month'),
-        DB::raw('SUM(product_outs.qty) as total_qty'),
-        DB::raw('SUM(product_outs.qty * products.price) as revenue')
-    )
-    ->join('products', 'products.id', '=', 'product_outs.product_id')
-    ->groupBy('month')
-    ->pluck('total_qty', 'month')
-    ->toArray();
-
-
-        // Prepare chart labels (Jan–Dec) and values
-        $labels = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-        $sales = [];
-        foreach (range(1, 12) as $m) {
-            $sales[] = $salesData[$m] ?? 0;
+    /**
+     * Get profit percentage
+     */
+    private function getProfitPercentage(): float
+    {
+        $totalEarnings = $this->getTotalEarnings();
+        if ($totalEarnings <= 0) {
+            return 0;
         }
 
+        $profit = $this->getTotalProfit();
+        return round(($profit / $totalEarnings) * 100, 2);
+    }
 
+    /**
+     * Get chart labels for months
+     */
+    private function getChartLabels(): array
+    {
+        return ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    }
 
-        $topProducts = ProductOut::select(
+    /**
+     * Get sales data for chart (monthly)
+     */
+    private function getSalesData(): array
+    {
+        $salesByMonth = ProductOut::select(
+            DB::raw('MONTH(date_out) as month'),
+            DB::raw('SUM(qty) as total_qty')
+        )
+        ->whereYear('date_out', Carbon::now()->year)
+        ->groupBy('month')
+        ->pluck('total_qty', 'month')
+        ->toArray();
+
+        // Fill missing months with 0
+        $sales = [];
+        for ($month = 1; $month <= 12; $month++) {
+            $sales[] = (int) ($salesByMonth[$month] ?? 0);
+        }
+
+        return $sales;
+    }
+
+    /**
+     * Get top 5 selling products
+     */
+    private function getTopProducts()
+    {
+        return ProductOut::select(
             'products.id',
             'products.nama as name',
             'categories.name as category',
@@ -79,55 +157,136 @@ class DashboardController extends Controller
         ->orderByDesc('total_sales')
         ->limit(5)
         ->get();
+    }
 
-         // Example calculation: Revenue = SUM(qty * price)
-    $todayRevenue = ProductOut::join('products', 'products.id', '=', 'product_outs.product_id')
-        ->whereDate('product_outs.date_out', today())
-        ->sum(DB::raw('product_outs.qty * products.price'));
+    /**
+     * Get today's revenue
+     */
+    private function getTodayRevenue(): float
+    {
+        return (float) ProductOut::join('products', 'products.id', '=', 'product_outs.product_id')
+            ->whereDate('product_outs.date_out', Carbon::today())
+            ->sum(DB::raw('product_outs.qty * products.price'));
+    }
 
-    $yearRevenue = ProductOut::join('products', 'products.id', '=', 'product_outs.product_id')
-        ->whereYear('product_outs.date_out', now()->year)
-        ->sum(DB::raw('product_outs.qty * products.price'));
+    /**
+     * Get current year's revenue
+     */
+    private function getYearRevenue(): float
+    {
+        return (float) ProductOut::join('products', 'products.id', '=', 'product_outs.product_id')
+            ->whereYear('product_outs.date_out', Carbon::now()->year)
+            ->sum(DB::raw('product_outs.qty * products.price'));
+    }
 
-    $target = 5000; // Example fixed target, can also come from DB/config
-    $percentage = $target > 0 ? round(($todayRevenue / $target) * 100, 2) : 0;
+    /**
+     * Get revenue target (this could come from settings/config)
+     */
+    private function getTarget(): float
+    {
+        return 50000.00; 
+    }
 
+    /**
+     * Get revenue percentage against target
+     */
+    private function getRevenuePercentage(): float
+    {
+        $todayRevenue = $this->getTodayRevenue();
+        $target = $this->getTarget();
+        
+        return $target > 0 ? round(($todayRevenue / $target) * 100, 2) : 0;
+    }
 
-     // Current month start & end
-    $startOfMonth = Carbon::now()->startOfMonth();
-    $endOfMonth   = Carbon::now()->endOfMonth();
+    /**
+     * Get current month's total income
+     */
+    private function getTotalIncome(): float
+    {
+        return (float) ProductOut::join('products', 'products.id', '=', 'product_outs.product_id')
+            ->whereBetween('product_outs.date_out', [
+                Carbon::now()->startOfMonth(),
+                Carbon::now()->endOfMonth()
+            ])
+            ->sum(DB::raw('product_outs.qty * products.price'));
+    }
 
-    // Total income (qty * price)
-    $totalIncome = DB::table('product_outs')
-        ->join('products', 'products.id', '=', 'product_outs.product_id')
-        ->whereBetween('product_outs.date_out', [$startOfMonth, $endOfMonth])
-        ->sum(DB::raw('product_outs.qty * products.price'));
+    /**
+     * Get income percentage change from last month
+     */
+    private function getIncomePercentageChange(): float
+    {
+        $currentMonthIncome = $this->getTotalIncome();
+        
+        $lastMonthIncome = (float) ProductOut::join('products', 'products.id', '=', 'product_outs.product_id')
+            ->whereBetween('product_outs.date_out', [
+                Carbon::now()->subMonth()->startOfMonth(),
+                Carbon::now()->subMonth()->endOfMonth()
+            ])
+            ->sum(DB::raw('product_outs.qty * products.price'));
 
-    // Percentage change from last month
-    $lastMonthStart = Carbon::now()->subMonth()->startOfMonth();
-    $lastMonthEnd   = Carbon::now()->subMonth()->endOfMonth();
+        if ($lastMonthIncome <= 0) {
+            return $currentMonthIncome > 0 ? 100 : 0;
+        }
 
-    $lastMonthIncome = DB::table('product_outs')
-        ->join('products', 'products.id', '=', 'product_outs.product_id')
-        ->whereBetween('product_outs.date_out', [$lastMonthStart, $lastMonthEnd])
-        ->sum(DB::raw('product_outs.qty * products.price'));
+        return round((($currentMonthIncome - $lastMonthIncome) / $lastMonthIncome) * 100, 2);
+    }
 
-    $percentageChange = $lastMonthIncome > 0
-        ? (($totalIncome - $lastMonthIncome) / $lastMonthIncome) * 100
-        : 0;
+    /**
+     * Get revenue data for specific date range
+     */
+    public function getRevenueByDateRange(Request $request)
+    {
+        $startDate = $request->input('start_date', Carbon::now()->startOfMonth());
+        $endDate = $request->input('end_date', Carbon::now()->endOfMonth());
 
+        return ProductOut::join('products', 'products.id', '=', 'product_outs.product_id')
+            ->whereBetween('product_outs.date_out', [$startDate, $endDate])
+            ->select(
+                DB::raw('DATE(product_outs.date_out) as date'),
+                DB::raw('SUM(product_outs.qty * products.price) as revenue'),
+                DB::raw('SUM(product_outs.qty) as quantity')
+            )
+            ->groupBy('date')
+            ->orderBy('date')
+            ->get();
+    }
 
-       $totalProfit = \DB::table('product_outs')
-        ->join('products', 'products.id', '=', 'product_outs.product_id')
-        ->selectRaw('SUM(product_outs.qty * products.price) as profit')
-        ->value('profit');
+    /**
+     * Get sales summary for specific period
+     */
+    public function getSalesSummary(string $period = 'month')
+    {
+        $query = ProductOut::join('products', 'products.id', '=', 'product_outs.product_id');
 
+        switch ($period) {
+            case 'today':
+                $query->whereDate('product_outs.date_out', Carbon::today());
+                break;
+            case 'week':
+                $query->whereBetween('product_outs.date_out', [
+                    Carbon::now()->startOfWeek(),
+                    Carbon::now()->endOfWeek()
+                ]);
+                break;
+            case 'month':
+                $query->whereBetween('product_outs.date_out', [
+                    Carbon::now()->startOfMonth(),
+                    Carbon::now()->endOfMonth()
+                ]);
+                break;
+            case 'year':
+                $query->whereYear('product_outs.date_out', Carbon::now()->year);
+                break;
+        }
 
-        return view('dashboard', compact('stats' , 'totalOrders',
-            'totalEarnings',
-            'productsSold',
-            'profitPercentage','totalProfit',
-            'labels', 'topProducts','todayRevenue', 'yearRevenue', 'target', 'percentage', 'totalIncome', 'percentageChange',
-            'sales'));
+        return [
+            'total_revenue' => $query->sum(DB::raw('product_outs.qty * products.price')),
+            'total_quantity' => $query->sum('product_outs.qty'),
+            'total_orders' => $query->count(),
+            'average_order_value' => $query->count() > 0 
+                ? $query->sum(DB::raw('product_outs.qty * products.price')) / $query->count() 
+                : 0
+        ];
     }
 }

@@ -104,12 +104,29 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::resource('products', ProductController::class); 
 	Route::get('/apiProducts', [ProductController::class, 'apiProducts'])->name('api.products');
     
-    Route::get('/product-out', [ProductOutController::class, 'index'])->name('productsOut.index');
-    Route::get('/product-out/data', [ProductOutController::class, 'getData'])->name('product_out.data');
-    Route::post('/product-out/store', [ProductOutController::class, 'store'])->name('product_out.store');
-    Route::get('/product-out/{id}/edit', [ProductOutController::class, 'edit'])->name('product_out.edit');
-    Route::delete('/product-outr/{id}', [ProductOutController::class, 'destroy'])->name('product_out.destroy');
-    Route::get('/invoice/data', [ProductOutController::class, 'data'])->name('invoice.data');
+    //  Route::get('/product-out', [ProductOutController::class, 'index'])->name('productsOut.index');
+    // Route::get('/product-out/data', [ProductOutController::class, 'getData'])->name('product_out.data');
+    // Route::post('/product-out/store', [ProductOutController::class, 'store'])->name('product_out.store');
+    // Route::get('/product-out/{id}/edit', [ProductOutController::class, 'edit'])->name('product_out.edit');
+    // Route::delete('/product-outr/{id}', [ProductOutController::class, 'destroy'])->name('product_out.destroy');
+    // Route::get('/invoice/data', [ProductOutController::class, 'data'])->name('invoice.data');
+
+Route::prefix('product-out')->name('product_out.')->group(function () {
+    // Main CRUD routes
+    Route::get('/', [ProductOutController::class, 'index'])->name('index');
+    Route::post('/store', [ProductOutController::class, 'store'])->name('store');
+    Route::get('/{id}/edit', [ProductOutController::class, 'edit'])->name('edit');
+    Route::get('/{id}', [ProductOutController::class, 'show'])->name('show');
+    Route::delete('/{id}', [ProductOutController::class, 'destroy'])->name('destroy');
+    
+    // DataTable routes
+    Route::get('/data/table', [ProductOutController::class, 'getData'])->name('data');
+    Route::get('/data/invoice', [ProductOutController::class, 'data'])->name('invoice.data');
+    
+    // Helper routes
+    Route::get('/get-products', [ProductOutController::class, 'getProducts'])->name('get.products');
+    Route::get('/get-product/{id}', [ProductOutController::class, 'getProduct'])->name('get.product');
+});
 
 
 	// Route::resource('productsIn', ProductInController::class);
@@ -120,6 +137,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/product-in/store', [ProductInController::class, 'store'])->name('product_in.store');
     Route::get('/product-in/{id}/edit', [ProductInController::class, 'edit'])->name('product_in.edit');
     Route::delete('/product-in/{id}', [ProductInController::class, 'destroy'])->name('product_in.destroy');
+
+    
 
 
 	Route::resource('user', UserController::class);
